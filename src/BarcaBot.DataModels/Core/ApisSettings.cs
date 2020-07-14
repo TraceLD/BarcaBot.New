@@ -2,7 +2,7 @@
 {
     public class ApisSettings
     {
-        public ApiSettings ApiFootball { get; set; }
-        public ApiSettings FootballData { get; set; }
+        public ApiFootballSettings ApiFootball { get; set; }
+        public FootballDataSettings FootballData { get; set; }
     }
 }

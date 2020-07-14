@@ -10,5 +10,6 @@ Database:
 Apis:
   ApiFootball:
     Token: ""
+    Season: ""
   FootballData:
     Token: ""
