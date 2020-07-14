@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BarcaBot.Bot
+namespace BarcaBot
 {
     class Program
     {
