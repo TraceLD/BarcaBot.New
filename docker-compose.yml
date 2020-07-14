@@ -1,0 +1,16 @@
+# this is for development environment only
+version: '3'
+
+services:
+    db:
+        image: "postgres"
+        env_file: 
+            - ./db/db.env
+        ports:
+            - 5432:5432
+        volumes:
+            - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - data-volume:/var/lib/postgresql/data
+
+volumes:
+    data-volume:
