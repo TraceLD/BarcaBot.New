@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using Discord.Commands;
 
 namespace BarcaBot.Commands
@@ -9,7 +10,7 @@ namespace BarcaBot.Commands
         [Command("help")]
         public async Task Help()
         {
-            throw new Exception();
+            throw new NotImplementedException();
         }
     }
 }

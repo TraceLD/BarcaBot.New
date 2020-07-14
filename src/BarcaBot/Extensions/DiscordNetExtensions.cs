@@ -1,5 +1,6 @@
-﻿using Discord;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+
+using Discord;
 
 namespace BarcaBot.Extensions
 {

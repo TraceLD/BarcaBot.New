@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using Discord.WebSocket;
+
 using Microsoft.Extensions.Hosting;
 
 namespace BarcaBot.Services.Hosted

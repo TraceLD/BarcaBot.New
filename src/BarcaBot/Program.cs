@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Http;
+using Microsoft.Extensions.Options;
 
 using Serilog;
 using Serilog.Core;
@@ -18,7 +17,6 @@ using Discord.Commands;
 
 using BarcaBot.DataModels.Core;
 using BarcaBot.Services.Hosted;
-using Microsoft.Extensions.Options;
 
 namespace BarcaBot
 {

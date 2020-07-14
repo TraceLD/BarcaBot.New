@@ -1,13 +1,16 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
+using Discord;
+using Discord.WebSocket;
+
 using BarcaBot.Extensions;
 using BarcaBot.DataModels.Core;
-using Microsoft.Extensions.Options;
 
 namespace BarcaBot.Services.Hosted
 {
