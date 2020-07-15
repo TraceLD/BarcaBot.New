@@ -17,7 +17,7 @@ namespace BarcaBot.Services.Http
     {
         private readonly IOptions<Settings> _settings;
         private readonly HttpClient _client;
-        private readonly JsonSerializerOptions _options;
+        private readonly JsonSerializerOptions _serializerOptions;
         
         public ApiFootballService(IOptions<Settings> settings, HttpClient client)
         {
@@ -29,10 +29,10 @@ namespace BarcaBot.Services.Http
 
             _client = client;
             
-            _options = new JsonSerializerOptions();
-            _options.PropertyNameCaseInsensitive = true;
-            _options.Converters.Add(new DateTimeConverterUsingDateTimeParse());
-            _options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            _serializerOptions = new JsonSerializerOptions();
+            _serializerOptions.PropertyNameCaseInsensitive = true;
+            _serializerOptions.Converters.Add(new DateTimeConverterUsingDateTimeParse());
+            _serializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
         }
 
         public async Task<IEnumerable<Player>> GetPlayers()
@@ -44,7 +44,7 @@ namespace BarcaBot.Services.Http
 
             await using var responseStream = await response.Content.ReadAsStreamAsync();
             var responseDeserialized = await JsonSerializer.DeserializeAsync
-                <PlayersResponse>(responseStream, _options);
+                <PlayersResponse>(responseStream, _serializerOptions);
 
             return responseDeserialized.Value.Players;
         }
