@@ -26,4 +26,8 @@
     <ProjectReference Include="..\BarcaBot.DataModels\BarcaBot.DataModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Hosted\Updaters" />
+  </ItemGroup>
+
 </Project>

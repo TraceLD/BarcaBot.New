@@ -16,7 +16,9 @@ using Discord;
 using Discord.Commands;
 
 using BarcaBot.DataModels.Core;
+using BarcaBot.Services.DataAccess;
 using BarcaBot.Services.Hosted;
+using BarcaBot.Services.Http;
 
 namespace BarcaBot
 {
@@ -43,7 +45,7 @@ namespace BarcaBot
                 Log.CloseAndFlush();
             }
         }
-
+        
         public static Logger CreateLogger()
             => new LoggerConfiguration()
                 .MinimumLevel.Information()
@@ -66,19 +68,10 @@ namespace BarcaBot
                 {
                     services.Configure<Settings>(context.Configuration);
 
-                    services.AddHttpClient("apifootball", (provider, client) =>
-                    {
-                        var config = provider.GetRequiredService<IOptions<Settings>>().Value;
-                        client.BaseAddress = new Uri("https://api-football-v1.p.rapidapi.com/v2/");
-                        client.DefaultRequestHeaders.Add("X-RapidAPI-Host", "api-football-v1.p.rapidapi.com");
-                        client.DefaultRequestHeaders.Add("X-RapidAPI-Key", config.Apis.ApiFootball.Token);
-                    });
-                    services.AddHttpClient("footballdata", (provider, client) =>
-                    {
-                        var config = provider.GetRequiredService<IOptions<Settings>>().Value;
-                        client.BaseAddress = new Uri("https://api.football-data.org/v2/");
-                        client.DefaultRequestHeaders.Add("X-Auth-Token", config.Apis.FootballData.Token);
-                    });
+                    services.AddHttpClient<ApiFootballService>();
+                    services.AddHttpClient<FootballDataService>();
+
+                    services.AddTransient<IDatabaseConnection, DatabaseConnection>();
                     
                     services.AddSingleton<IBotService, BotHostedService>();
                     services.AddHostedService(provider => provider.GetRequiredService<IBotService>());
