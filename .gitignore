@@ -11,4 +11,5 @@ obj/
 
 # Don't include any secrets
 appsettings.yml
-*.env
+init-mongo.js
+db.env

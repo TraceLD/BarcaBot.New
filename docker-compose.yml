@@ -1,16 +1,22 @@
-# this is for development environment only
 version: '3'
 
 services:
-    db:
-        image: "postgres"
-        env_file: 
-            - ./db/db.env
+    mongodb:
+        image: mongo:latest
+        env_file: ./db/db.env
         ports:
-            - 5432:5432
+            - 27017:27017
         volumes:
-            - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-            - data-volume:/var/lib/postgresql/data
+            - ./db/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+            - mongodb-volume:/data/db
+    bot:
+        build:
+            context: ./src
+            dockerfile: ./BarcaBot/Dockerfile
+        ports:
+            - 5001:80
+        depends_on: 
+            - mongodb
 
 volumes:
-    data-volume:
+    mongodb-volume:
