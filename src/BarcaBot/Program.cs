@@ -19,6 +19,7 @@ using Serilog.Formatting.Compact;
 
 using Discord;
 using Discord.Commands;
+using MongoDB.Driver;
 
 namespace BarcaBot
 {
@@ -78,7 +79,20 @@ namespace BarcaBot
 
                     services.AddHttpClient<IApiFootballService, ApiFootballService>();
                     services.AddHttpClient<FootballDataService>();
+
+                    services.AddSingleton<IMongoClient>(provider =>
+                    {
+                        var config = provider.GetRequiredService<DatabaseSettings>();
+                        return new MongoClient(config.ConnectionString);
+                    });
+                    services.AddScoped<IMongoDatabase>(provider =>
+                    {
+                        var config = provider.GetRequiredService<DatabaseSettings>();
+                        var client = provider.GetRequiredService<IMongoClient>();
+                        return client.GetDatabase(config.DatabaseName);
+                    });
                     
+                    services.AddScoped<IPlayerService, PlayerService>();
                     services.AddSingleton<IBotService, BotHostedService>();
 
                     var commandService = new CommandService(new CommandServiceConfig
@@ -87,7 +101,6 @@ namespace BarcaBot
                         DefaultRunMode = RunMode.Sync,
                         LogLevel = LogSeverity.Verbose
                     });
-
                     services.AddSingleton(provider =>
                     {
                         commandService.AddModulesAsync(Assembly.GetEntryAssembly(), provider);
@@ -96,6 +109,7 @@ namespace BarcaBot
                     
                     services.AddHostedService(provider => provider.GetRequiredService<IBotService>());
                     services.AddHostedService<CommandHostedService>();
+                    services.AddHostedService<PlayerHostedService>();
                 })
                 .UseSerilog();
     }

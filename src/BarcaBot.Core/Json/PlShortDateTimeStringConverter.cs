@@ -5,11 +5,11 @@ using System.Text.Json.Serialization;
 
 namespace BarcaBot.Core.Json
 {
-    public class ShortDateTimeStringConverter : JsonConverter<DateTime>
+    public class PlShortDateTimeStringConverter : JsonConverter<DateTime>
     {
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return DateTime.Parse(reader.GetString());
+            return DateTime.Parse(reader.GetString(), new CultureInfo("pl-PL", false));
         }
 
         public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)

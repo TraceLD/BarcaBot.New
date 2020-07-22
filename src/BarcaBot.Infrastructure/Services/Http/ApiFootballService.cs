@@ -32,7 +32,6 @@ namespace BarcaBot.Infrastructure.Services.Http
             _serializerOptions = new JsonSerializerOptions();
             _serializerOptions.PropertyNameCaseInsensitive = true;
             _serializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
-            _serializerOptions.Converters.Add(new ShortDateTimeStringConverter());
             _serializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
         }
 

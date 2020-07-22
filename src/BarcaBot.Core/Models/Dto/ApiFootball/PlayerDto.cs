@@ -23,6 +23,7 @@ namespace BarcaBot.Core.Models.Dto.ApiFootball
         
         public int Age { get; set; }
         
+        [JsonConverter(typeof(PlShortDateTimeStringConverter))]
         [JsonPropertyName("birth_date")]
         public DateTime BirthDate { get; set; }
         
