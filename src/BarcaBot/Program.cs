@@ -1,7 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
-
+using BarcaBot.Core.Interfaces;
+using BarcaBot.Core.Models.Settings;
+using BarcaBot.Infrastructure.HostedServices;
+using BarcaBot.Infrastructure.Services;
+using BarcaBot.Infrastructure.Services.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,11 +19,6 @@ using Serilog.Formatting.Compact;
 
 using Discord;
 using Discord.Commands;
-
-using BarcaBot.DataModels.Core;
-using BarcaBot.Services.DataAccess;
-using BarcaBot.Services.Hosted;
-using BarcaBot.Services.Http;
 
 namespace BarcaBot
 {
@@ -66,22 +66,35 @@ namespace BarcaBot
                 .ConfigureAppConfiguration(builder => builder.AddYamlFile("appsettings.yml", optional: false))
                 .ConfigureServices((context, services) =>
                 {
-                    services.Configure<Settings>(context.Configuration);
+                    services.Configure<ApisSettings>(context.Configuration.GetSection(nameof(ApisSettings)));
+                    services.AddSingleton<ApisSettings>(provider =>
+                        provider.GetRequiredService<IOptions<ApisSettings>>().Value);
+                    services.Configure<DiscordSettings>(context.Configuration.GetSection(nameof(DiscordSettings)));
+                    services.AddSingleton<DiscordSettings>(provider =>
+                        provider.GetRequiredService<IOptions<DiscordSettings>>().Value);
+                    services.Configure<DatabaseSettings>(context.Configuration.GetSection(nameof(DatabaseSettings)));
+                    services.AddSingleton<DatabaseSettings>(provider =>
+                        provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
                     services.AddHttpClient<ApiFootballService>();
                     services.AddHttpClient<FootballDataService>();
-
-                    services.AddTransient<IDatabaseConnection, DatabaseConnection>();
                     
                     services.AddSingleton<IBotService, BotHostedService>();
-                    services.AddHostedService(provider => provider.GetRequiredService<IBotService>());
-                    
-                    services.AddSingleton(provider => new CommandService(new CommandServiceConfig
+
+                    var commandService = new CommandService(new CommandServiceConfig
                     {
                         CaseSensitiveCommands = false,
                         DefaultRunMode = RunMode.Sync,
                         LogLevel = LogSeverity.Verbose
-                    }));
+                    });
+
+                    services.AddSingleton(provider =>
+                    {
+                        commandService.AddModulesAsync(Assembly.GetEntryAssembly(), provider);
+                        return commandService;
+                    });
+                    
+                    services.AddHostedService(provider => provider.GetRequiredService<IBotService>());
                     services.AddHostedService<CommandHostedService>();
                 })
                 .UseSerilog();

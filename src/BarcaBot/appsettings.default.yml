@@ -1,13 +1,13 @@
 ﻿# Rename to appsettings.yml before building the bot
-Discord:
+DiscordSettings:
   Prefix: ""
   Token: ""
-Database:
+DatabaseSettings:
   Server: ""
   Name: ""
   Username: ""
   Password: ""
-Apis:
+ApisSettings:
   ApiFootball:
     Token: ""
     Season: ""
