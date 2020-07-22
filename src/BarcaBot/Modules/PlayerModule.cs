@@ -1,18 +1,17 @@
 ﻿using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using BarcaBot.Core.Interfaces;
 using BarcaBot.Infrastructure.Extensions;
-using BarcaBot.Infrastructure.Services;
-using BarcaBot.Infrastructure.Services.Http;
 using Discord.Commands;
 
 namespace BarcaBot.Modules
 {
     public class PlayerModule : ModuleBase<SocketCommandContext>
     {
-        private readonly ApiFootballService _api;
+        private readonly IApiFootballService _api;
 
-        public PlayerModule(ApiFootballService api)
+        public PlayerModule(IApiFootballService api)
         {
             _api = api;
         }

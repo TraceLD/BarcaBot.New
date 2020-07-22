@@ -6,14 +6,14 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Json;
 using BarcaBot.Core.Models.Dto.ApiFootball;
 using BarcaBot.Core.Models.Settings;
-using Microsoft.Extensions.Options;
 
 namespace BarcaBot.Infrastructure.Services.Http
 {
-    public class ApiFootballService
+    public class ApiFootballService : IApiFootballService
     {
         private readonly ApisSettings _settings;
         private readonly HttpClient _client;

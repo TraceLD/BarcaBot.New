@@ -76,7 +76,7 @@ namespace BarcaBot
                     services.AddSingleton<DatabaseSettings>(provider =>
                         provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-                    services.AddHttpClient<ApiFootballService>();
+                    services.AddHttpClient<IApiFootballService, ApiFootballService>();
                     services.AddHttpClient<FootballDataService>();
                     
                     services.AddSingleton<IBotService, BotHostedService>();
