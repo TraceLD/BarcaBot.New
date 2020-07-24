@@ -11,7 +11,7 @@ RUN dotnet restore "BarcaBot/BarcaBot.csproj" --configfile .nuget/nuget.config
 
 COPY . .
 WORKDIR "/src/BarcaBot"
-RUN dotnet publish "BarcaBot.csproj" -c Release -o /app/publish
+RUN dotnet publish "BarcaBot.csproj" -c Release -o /app/publish --no-restore
 
 FROM base AS final
 WORKDIR /app
