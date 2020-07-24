@@ -25,7 +25,7 @@ namespace BarcaBot.Infrastructure.Services
             => await _players.Find(player => player.Id == id).FirstOrDefaultAsync();
 
         public async Task<Player> GetAsync(string name)
-            => await _players.Find(player => player.Name.Contains(name)).FirstOrDefaultAsync();
+            => await _players.Find(player => player.Name.ToLower().Contains(name)).FirstOrDefaultAsync();
 
         public async Task UpsertAsync(Player playerIn)
         {
