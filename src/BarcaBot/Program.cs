@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Models.Settings;
+using BarcaBot.Infrastructure;
 using BarcaBot.Infrastructure.HostedServices;
 using BarcaBot.Infrastructure.Services;
 using BarcaBot.Infrastructure.Services.Http;
@@ -94,6 +95,7 @@ namespace BarcaBot
                     
                     services.AddScoped<IPlayerService, PlayerService>();
                     services.AddSingleton<IBotService, BotHostedService>();
+                    services.AddSingleton<ICountryEmojiService, CountryEmojiService>();
 
                     var commandService = new CommandService(new CommandServiceConfig
                     {
