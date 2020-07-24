@@ -1,26 +1,24 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Models.Settings;
-using BarcaBot.Infrastructure;
 using BarcaBot.Infrastructure.HostedServices;
 using BarcaBot.Infrastructure.Services;
 using BarcaBot.Infrastructure.Services.Http;
+using Discord;
+using Discord.Commands;
+using MongoDB.Driver;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
-
-using Discord;
-using Discord.Commands;
-using MongoDB.Driver;
 
 namespace BarcaBot
 {
@@ -79,7 +77,7 @@ namespace BarcaBot
                         provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
                     services.AddHttpClient<IApiFootballService, ApiFootballService>();
-                    services.AddHttpClient<FootballDataService>();
+                    services.AddHttpClient<IFootballDataService, FootballDataService>();
 
                     services.AddSingleton<IMongoClient>(provider =>
                     {
@@ -106,6 +104,8 @@ namespace BarcaBot
                     services.AddSingleton(provider =>
                     {
                         commandService.AddModulesAsync(Assembly.GetEntryAssembly(), provider);
+                        Log.Logger.Information("{Modules} modules loaded, containing {Commands} commands",
+                            commandService.Modules.Count(), commandService.Modules.SelectMany(d=>d.Commands).Count());
                         return commandService;
                     });
                     
