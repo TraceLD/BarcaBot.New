@@ -35,7 +35,7 @@ namespace BarcaBot.Infrastructure.Services.Http
             _serializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
         }
 
-        public async Task<IEnumerable<PlayerDto>> GetPlayersAsync()
+        public async Task<IEnumerable<PlayerDto>> GetPlayerDtosAsync()
         {
             var response = await _client.GetAsync(
                 $"players/team/529/{_settings.ApiFootball.Season}");

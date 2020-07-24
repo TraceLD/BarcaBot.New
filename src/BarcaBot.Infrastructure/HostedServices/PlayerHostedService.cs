@@ -39,7 +39,7 @@ namespace BarcaBot.Infrastructure.HostedServices
                 
                 using var scope = Services.CreateScope();
                 var scopedClient = scope.ServiceProvider.GetRequiredService<IApiFootballService>();
-                var players = (await scopedClient.GetPlayersAsync())
+                var players = (await scopedClient.GetPlayerDtosAsync())
                     .AsPlayers();
                 var scopedPlayerService = scope.ServiceProvider.GetRequiredService<IPlayerService>();
                 

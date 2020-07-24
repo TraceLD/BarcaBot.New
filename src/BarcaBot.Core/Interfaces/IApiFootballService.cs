@@ -6,6 +6,6 @@ namespace BarcaBot.Core.Interfaces
 {
     public interface IApiFootballService
     {
-        Task<IEnumerable<PlayerDto>> GetPlayersAsync();
+        Task<IEnumerable<PlayerDto>> GetPlayerDtosAsync();
     }
 }
