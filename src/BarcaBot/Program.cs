@@ -109,7 +109,7 @@ namespace BarcaBot
                     
                     services.AddHostedService(provider => provider.GetRequiredService<IBotService>());
                     services.AddHostedService<CommandHostedService>();
-                    services.AddHostedService<PlayerHostedService>();
+                    //services.AddHostedService<PlayerHostedService>();
                 })
                 .UseSerilog();
     }
