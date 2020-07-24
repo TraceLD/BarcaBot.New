@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BarcaBot.Core.Models.Dto.ApiFootball;
 using BarcaBot.Core.Models.Player;
@@ -12,6 +13,7 @@ namespace BarcaBot.Infrastructure.Extensions
                 .Select(y => new Player
                 {
                     Id = y.Key,
+                    UpdatedAt = DateTime.UtcNow,
                     Name = Utils.NormalizePlayerName(y.First().PlayerName),
                     Number = y.First().Number,
                     Position = y.First().Position,
