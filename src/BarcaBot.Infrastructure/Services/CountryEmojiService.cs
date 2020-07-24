@@ -2,7 +2,7 @@
 using BarcaBot.Core.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace BarcaBot.Infrastructure
+namespace BarcaBot.Infrastructure.Services
 {
     public class CountryEmojiService : ICountryEmojiService
     {
