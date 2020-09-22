@@ -45,6 +45,7 @@ namespace BarcaBot.Infrastructure.HostedServices
                 var scheduledMatches = matches.Select((match, i) => new ScheduledMatch
                 {
                     Id = i,
+                    UpdatedAt = match.UpdatedAt,
                     Competition = match.Competition,
                     Season = match.Season,
                     UtcDate = match.UtcDate,

@@ -7,6 +7,7 @@ namespace BarcaBot.Core.Models
     {
         [BsonId]
         public int Id { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public Competition Competition { get; set; }
         public Season Season { get; set; }
         public DateTime UtcDate { get; set; }
