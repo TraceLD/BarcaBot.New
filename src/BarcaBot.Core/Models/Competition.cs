@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using BarcaBot.Core.Models.FootballData;
 
-namespace BarcaBot.Core.Models.Dto.FootballData
+namespace BarcaBot.Core.Models
 {
-    public class CompetitionDto
+    public class Competition
     {
         public int Id { get; set; }
         
-        public AreaDto Area { get; set; }
+        public Area Area { get; set; }
         
         public string Name { get; set; }
         

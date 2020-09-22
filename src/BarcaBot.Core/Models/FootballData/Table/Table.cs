@@ -1,6 +1,6 @@
-﻿namespace BarcaBot.Core.Models.Dto.FootballData
+﻿namespace BarcaBot.Core.Models.FootballData.Table
 {
-    public class TableDto
+    public class Table
     {
         public int Position { get; set; }
         public Team Team { get; set; }

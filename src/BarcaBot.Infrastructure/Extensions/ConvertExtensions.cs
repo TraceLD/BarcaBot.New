@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BarcaBot.Core.Models.Dto.ApiFootball;
-using BarcaBot.Core.Models.Dto.FootballData;
+using BarcaBot.Core.Models;
+using BarcaBot.Core.Models.FootballData.Matches;
+using BarcaBot.Core.Models.FootballData.Table;
 using BarcaBot.Core.Models.Player;
 using BarcaBot.Core.Models.Table;
+using Player = BarcaBot.Core.Models.ApiFootball.Players.Player;
 
 namespace BarcaBot.Infrastructure.Extensions
 {
     public static class ConvertExtensions
     {
-        public static IEnumerable<Player> AsPlayers(this IEnumerable<PlayerDto> playerDtos)
+        public static IEnumerable<Core.Models.Player.Player> AsPlayers(this IEnumerable<Player> playerDtos)
             => playerDtos.GroupBy(x => x.PlayerId)
-                .Select(y => new Player
+                .Select(y => new Core.Models.Player.Player
                 {
                     Id = y.Key,
                     UpdatedAt = DateTime.UtcNow,
@@ -93,15 +95,15 @@ namespace BarcaBot.Infrastructure.Extensions
                     }
                 });
 
-        public static IEnumerable<TablePosition> AsTablePositions(this StandingsResponseDto responseDto)
+        public static IEnumerable<TablePosition> AsTablePositions(this StandingsResponse response)
         {
-            var standingDtos = responseDto.Standings;
+            var standingDtos = response.Standings;
 
             return standingDtos.First().Table.Select(dto => new TablePosition
             {
                 Id = dto.Position,
-                CurrentMatchday = responseDto.Season.CurrentMatchday,
-                UpdatedAt = responseDto.Competition.UpdatedAt,
+                CurrentMatchday = response.Season.CurrentMatchday,
+                UpdatedAt = response.Competition.UpdatedAt,
                 Team = dto.Team,
                 TeamStatistics = new TeamStatistics
                 {

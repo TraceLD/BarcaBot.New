@@ -6,10 +6,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading.Tasks;
-using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Interfaces.Http;
-using BarcaBot.Core.Json;
-using BarcaBot.Core.Models.Dto.ApiFootball;
+using BarcaBot.Core.Models.ApiFootball.Players;
 using BarcaBot.Core.Models.Settings;
 
 namespace BarcaBot.Infrastructure.Services.Http
@@ -38,14 +36,14 @@ namespace BarcaBot.Infrastructure.Services.Http
             _serializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
         }
 
-        public async Task<IEnumerable<PlayerDto>> GetPlayerDtosAsync()
+        public async Task<IEnumerable<Player>> GetPlayerDtosAsync()
         {
             var response = await _client.GetAsync(
                 $"players/team/{FcBarcelonaTeamId}/{_settings.ApiFootball.Season}");
             response.EnsureSuccessStatusCode();
             await using var responseStream = await response.Content.ReadAsStreamAsync();
             var responseDeserialized = await JsonSerializer.DeserializeAsync
-                <PlayersResponseDto>(responseStream, _serializerOptions);
+                <PlayersResponse>(responseStream, _serializerOptions);
             return responseDeserialized.Value.Players;
         }
     }

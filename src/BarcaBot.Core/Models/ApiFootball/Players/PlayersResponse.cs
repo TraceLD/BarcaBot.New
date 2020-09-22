@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace BarcaBot.Core.Models.Dto.ApiFootball
+namespace BarcaBot.Core.Models.ApiFootball.Players
 {
-    public class PlayersResponseDto
+    public class PlayersResponse
     {
         [JsonPropertyName("api")]
         public ApiValueDto Value { get; set; }
@@ -13,6 +13,6 @@ namespace BarcaBot.Core.Models.Dto.ApiFootball
     {
         public int Results { get; set; }
         
-        public IEnumerable<PlayerDto> Players { get; set; }
+        public IEnumerable<Player> Players { get; set; }
     }
 }

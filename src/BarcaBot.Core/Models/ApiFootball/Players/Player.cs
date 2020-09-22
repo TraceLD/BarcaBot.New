@@ -3,9 +3,9 @@ using System.Text.Json.Serialization;
 using BarcaBot.Core.Json;
 using BarcaBot.Core.Models.Player;
 
-namespace BarcaBot.Core.Models.Dto.ApiFootball
+namespace BarcaBot.Core.Models.ApiFootball.Players
 {
-    public class PlayerDto
+    public class Player
     {
         [JsonPropertyName("player_id")]
         public int PlayerId { get; set; }

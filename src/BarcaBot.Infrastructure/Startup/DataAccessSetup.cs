@@ -24,6 +24,7 @@ namespace BarcaBot.Infrastructure.Startup
             
             services.AddScoped<IPlayerService, PlayerService>();
             services.AddScoped<ILaLigaTableService, LaLigaTableService>();
+            services.AddScoped<IScheduledMatchService, ScheduledMatchService>();
         }
     }
 }

@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
-using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Interfaces.Http;
-using BarcaBot.Core.Models.Dto.FootballData;
+using BarcaBot.Core.Models.FootballData.Matches;
+using BarcaBot.Core.Models.FootballData.Table;
 using BarcaBot.Core.Models.Settings;
-using BarcaBot.Core.Models.Table;
-using Microsoft.Extensions.Options;
 
 namespace BarcaBot.Infrastructure.Services.Http
 {
@@ -21,6 +17,7 @@ namespace BarcaBot.Infrastructure.Services.Http
         private readonly JsonSerializerOptions _serializerOptions;
         
         private const int LaLigaId = 2014;
+        private const int FcBarcelonaId = 81;
         
         public FootballDataService(ApisSettings settings, HttpClient client)
         {
@@ -34,14 +31,29 @@ namespace BarcaBot.Infrastructure.Services.Http
             _serializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
         }
 
-        public async Task<StandingsResponseDto> GetLaLigaStandings()
+        public async Task<StandingsResponse> GetLaLigaStandings()
         {
             var response = await _client.GetAsync(
-            $"competitions/2014/standings");
+            $"competitions/{LaLigaId}/standings");
+            
             response.EnsureSuccessStatusCode();
+            
             await using var responseStream = await response.Content.ReadAsStreamAsync();
             var responseDeserialized = await JsonSerializer.DeserializeAsync
-                <StandingsResponseDto>(responseStream, _serializerOptions);
+                <StandingsResponse>(responseStream, _serializerOptions);
+            return responseDeserialized;
+        }
+
+        public async Task<MatchesResponse> GetScheduledMatches()
+        {
+            var response = await _client.GetAsync(
+                $"teams/{FcBarcelonaId}/matches?status=SCHEDULED");
+
+            response.EnsureSuccessStatusCode();
+
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            var responseDeserialized = await JsonSerializer.DeserializeAsync
+                <MatchesResponse>(responseStream, _serializerOptions);
             return responseDeserialized;
         }
     }

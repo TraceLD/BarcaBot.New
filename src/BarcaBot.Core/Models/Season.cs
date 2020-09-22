@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace BarcaBot.Core.Models.Dto.FootballData
+namespace BarcaBot.Core.Models
 {
-    public class SeasonDto
+    public class Season
     {
         public int Id { get; set; }
         public DateTime StartDate { get; set; }

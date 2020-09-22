@@ -1,6 +1,4 @@
-﻿using BarcaBot.Core.Interfaces;
-
-namespace BarcaBot.Infrastructure
+﻿namespace BarcaBot.Infrastructure
 {
     public class ToPer90Converter
     {
