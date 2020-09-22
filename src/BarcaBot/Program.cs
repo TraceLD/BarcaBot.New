@@ -92,6 +92,7 @@ namespace BarcaBot
                     });
                     
                     services.AddScoped<IPlayerService, PlayerService>();
+                    services.AddScoped<ILaLigaTableService, LaLigaTableService>();
                     services.AddSingleton<IBotService, BotHostedService>();
                     services.AddSingleton<ICountryEmojiService, CountryEmojiService>();
 
@@ -111,7 +112,8 @@ namespace BarcaBot
                     
                     services.AddHostedService(provider => provider.GetRequiredService<IBotService>());
                     services.AddHostedService<CommandHostedService>();
-                    //services.AddHostedService<PlayerHostedService>();
+                    //services.AddHostedService<PlayersHostedService>();
+                    services.AddHostedService<LaLigaTableHostedService>();
                 })
                 .UseSerilog();
     }

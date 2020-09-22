@@ -15,4 +15,8 @@
     <ProjectReference Include="..\BarcaBot.Core\BarcaBot.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EmbedCreators" />
+  </ItemGroup>
+
 </Project>

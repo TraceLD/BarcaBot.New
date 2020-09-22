@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using BarcaBot.Core.Models.Dto.ApiFootball;
+using BarcaBot.Core.Models.Dto.FootballData;
 using BarcaBot.Core.Models.Player;
+using BarcaBot.Core.Models.Table;
 
 namespace BarcaBot.Infrastructure.Extensions
 {
@@ -21,7 +23,7 @@ namespace BarcaBot.Infrastructure.Extensions
                     Nationality = y.First().Nationality,
                     Height = y.First().Height,
                     Weight = y.First().Weight,
-                    Statistics = new Statistics
+                    Statistics = new PlayerStatistics
                     {
                         Rating = y.Average(x => x.Rating),
                         Shots = new Shots
@@ -90,5 +92,29 @@ namespace BarcaBot.Infrastructure.Extensions
                         }
                     }
                 });
+
+        public static IEnumerable<TablePosition> AsTablePositions(this StandingsResponseDto responseDto)
+        {
+            var standingDtos = responseDto.Standings;
+
+            return standingDtos.First().Table.Select(dto => new TablePosition
+            {
+                Id = dto.Position,
+                CurrentMatchday = responseDto.Season.CurrentMatchday,
+                UpdatedAt = responseDto.Competition.UpdatedAt,
+                Team = dto.Team,
+                TeamStatistics = new TeamStatistics
+                {
+                    PlayedGames = dto.PlayedGames,
+                    Won = dto.Won,
+                    Draw = dto.Draw,
+                    Lost = dto.Lost,
+                    Points = dto.Points,
+                    GoalsFor = dto.GoalsFor,
+                    GoalsAgainst = dto.GoalsAgainst,
+                    GoalDifference = dto.GoalDifference
+                }
+            });
+        }
     }
 }

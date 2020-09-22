@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Models.Player;
 using BarcaBot.Infrastructure;
-using BarcaBot.Infrastructure.Extensions;
-using BarcaBot.Infrastructure.Services;
 using Discord;
 using Discord.Commands;
 using Microsoft.Extensions.Logging;
@@ -63,7 +59,7 @@ namespace BarcaBot.Modules
                 .AddField("Games played", stats.Games.Appearances)
                 .AddField("Goals", stats.Goals.Total)
                 .AddField("Assists", stats.Goals.Assists)
-                .AddField("Rating", $"{stats.Rating:0.##}");
+                .AddField("Rating", stats.Rating is null ? "0" : $"{stats.Rating:0.##}");
             var converter = new ToPer90Converter(stats.Games.MinutesPlayed);
             
             switch (player.Position)

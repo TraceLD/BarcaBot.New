@@ -15,7 +15,7 @@ services:
             dockerfile: ./BarcaBot/Dockerfile
         ports:
             - 5001:80
-        depends_on: 
+        depends_on:
             - mongodb
 
 volumes:

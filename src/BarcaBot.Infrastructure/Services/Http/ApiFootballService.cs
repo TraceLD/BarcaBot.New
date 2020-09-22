@@ -18,6 +18,8 @@ namespace BarcaBot.Infrastructure.Services.Http
         private readonly ApisSettings _settings;
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _serializerOptions;
+
+        private const int FcBarcelonaTeamId = 529;
         
         public ApiFootballService(ApisSettings settings, HttpClient client)
         {
@@ -38,14 +40,11 @@ namespace BarcaBot.Infrastructure.Services.Http
         public async Task<IEnumerable<PlayerDto>> GetPlayerDtosAsync()
         {
             var response = await _client.GetAsync(
-                $"players/team/529/{_settings.ApiFootball.Season}");
-            
+                $"players/team/{FcBarcelonaTeamId}/{_settings.ApiFootball.Season}");
             response.EnsureSuccessStatusCode();
-
             await using var responseStream = await response.Content.ReadAsStreamAsync();
             var responseDeserialized = await JsonSerializer.DeserializeAsync
                 <PlayersResponseDto>(responseStream, _serializerOptions);
-
             return responseDeserialized.Value.Players;
         }
     }
