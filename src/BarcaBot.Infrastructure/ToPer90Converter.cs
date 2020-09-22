@@ -2,7 +2,7 @@
 
 namespace BarcaBot.Infrastructure
 {
-    public class ToPer90Converter : IToPer90Converter
+    public class ToPer90Converter
     {
         private readonly int _minutesPlayed;
 

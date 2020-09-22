@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
+using BarcaBot.Core.Interfaces.Http;
 using BarcaBot.Core.Json;
 using BarcaBot.Core.Models.Dto.ApiFootball;
 using BarcaBot.Core.Models.Settings;

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using BarcaBot.Core.Models.Dto.ApiFootball;
 
-namespace BarcaBot.Core.Interfaces
+namespace BarcaBot.Core.Interfaces.Http
 {
     public interface IApiFootballService
     {

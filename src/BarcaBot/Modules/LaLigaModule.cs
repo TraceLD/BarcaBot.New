@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
+using BarcaBot.Core.Interfaces.Http;
 using Discord.Commands;
 using Microsoft.Extensions.Logging;
 

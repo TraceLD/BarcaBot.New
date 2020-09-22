@@ -1,16 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Models.Settings;
-using BarcaBot.Infrastructure.HostedServices;
 using BarcaBot.Infrastructure.Services;
-using BarcaBot.Infrastructure.Services.Http;
-using Discord;
-using Discord.Commands;
-using MongoDB.Driver;
+using BarcaBot.Infrastructure.Startup;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -76,44 +70,13 @@ namespace BarcaBot
                     services.AddSingleton<DatabaseSettings>(provider =>
                         provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-                    services.AddHttpClient<IApiFootballService, ApiFootballService>();
-                    services.AddHttpClient<IFootballDataService, FootballDataService>();
-
-                    services.AddSingleton<IMongoClient>(provider =>
-                    {
-                        var config = provider.GetRequiredService<DatabaseSettings>();
-                        return new MongoClient(config.ConnectionString);
-                    });
-                    services.AddScoped<IMongoDatabase>(provider =>
-                    {
-                        var config = provider.GetRequiredService<DatabaseSettings>();
-                        var client = provider.GetRequiredService<IMongoClient>();
-                        return client.GetDatabase(config.DatabaseName);
-                    });
-                    
-                    services.AddScoped<IPlayerService, PlayerService>();
-                    services.AddScoped<ILaLigaTableService, LaLigaTableService>();
-                    services.AddSingleton<IBotService, BotHostedService>();
                     services.AddSingleton<ICountryEmojiService, CountryEmojiService>();
-
-                    var commandService = new CommandService(new CommandServiceConfig
-                    {
-                        CaseSensitiveCommands = false,
-                        DefaultRunMode = RunMode.Sync,
-                        LogLevel = LogSeverity.Verbose
-                    });
-                    services.AddSingleton(provider =>
-                    {
-                        commandService.AddModulesAsync(Assembly.GetEntryAssembly(), provider);
-                        Log.Logger.Information("{Modules} modules loaded, containing {Commands} commands",
-                            commandService.Modules.Count(), commandService.Modules.SelectMany(d=>d.Commands).Count());
-                        return commandService;
-                    });
                     
-                    services.AddHostedService(provider => provider.GetRequiredService<IBotService>());
-                    services.AddHostedService<CommandHostedService>();
-                    //services.AddHostedService<PlayersHostedService>();
-                    services.AddHostedService<LaLigaTableHostedService>();
+                    services.AddDataAccessServices();
+                    services.AddHttpClients();
+                    services.AddEmbedServices();
+                    services.AddAutoUpdaters();
+                    services.AddDiscordBot();
                 })
                 .UseSerilog();
     }

@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
+using BarcaBot.Core.Interfaces.Http;
 using BarcaBot.Infrastructure.Extensions;
 using BarcaBot.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BarcaBot.Core.Models.Dto.FootballData;
-using BarcaBot.Core.Models.Table;
 
-namespace BarcaBot.Core.Interfaces
+namespace BarcaBot.Core.Interfaces.Http
 {
     public interface IFootballDataService
     {
