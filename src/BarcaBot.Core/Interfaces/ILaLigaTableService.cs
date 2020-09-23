@@ -8,6 +8,8 @@ namespace BarcaBot.Core.Interfaces
     {
         Task<IList<TablePosition>> GetAsync();
         Task<TablePosition> GetAsync(int position);
+        Task<IList<TablePosition>> GetTop5();
+        Task<IList<TablePosition>> GetBottom5();
         Task UpsertAsync(TablePosition tablePositionIn);
     }
 }

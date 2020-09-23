@@ -18,7 +18,7 @@ namespace BarcaBot.Infrastructure.Services.Embeds
             _emojiService = emojiService;
         }
         
-        public Embed CreatePlayerEmbed(Player player)
+        public EmbedBuilder CreatePlayerEmbed(Player player)
         {
             var stats = player.Statistics;
             var flag = _emojiService.GetEmojiString(player.Nationality);
@@ -63,7 +63,7 @@ namespace BarcaBot.Infrastructure.Services.Embeds
                     throw new ArgumentOutOfRangeException();
             }
 
-            return builder.Build();
+            return builder;
 
             void AddShots()
             {

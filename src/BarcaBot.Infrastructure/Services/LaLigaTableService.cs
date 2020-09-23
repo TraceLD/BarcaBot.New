@@ -24,6 +24,12 @@ namespace BarcaBot.Infrastructure.Services
         public async Task<TablePosition> GetAsync(int position)
             => await _table.Find(tablePosition => tablePosition.Id == position).FirstOrDefaultAsync();
 
+        public async Task<IList<TablePosition>> GetTop5()
+            => await _table.Find(tablePosition => tablePosition.Id <= 5).ToListAsync();
+
+        public async Task<IList<TablePosition>> GetBottom5()
+            => await _table.Find(tablePosition => tablePosition.Id >= 16).ToListAsync();
+
         public async Task UpsertAsync(TablePosition tablePositionIn)
         {
             var options = new ReplaceOptions{IsUpsert = true};

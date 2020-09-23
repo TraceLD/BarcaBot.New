@@ -10,13 +10,13 @@ namespace BarcaBot.Modules
     {
         private readonly ILogger<PlayerModule> _logger;
         private readonly IPlayerService _playerService;
-        private readonly IPlayerEmbedService _playerEmbedService;
+        private readonly IPlayerEmbedService _embedService;
 
-        public PlayerModule(ILogger<PlayerModule> logger, IPlayerService playerService, ICountryEmojiService emojiService, IPlayerEmbedService playerEmbedService)
+        public PlayerModule(ILogger<PlayerModule> logger, IPlayerService playerService, ICountryEmojiService emojiService, IPlayerEmbedService embedService)
         {
             _logger = logger;
             _playerService = playerService;
-            _playerEmbedService = playerEmbedService;
+            _embedService = embedService;
         }
 
         [Priority(-1)]
@@ -40,9 +40,9 @@ namespace BarcaBot.Modules
                 return;
             }
             
-            var embed = _playerEmbedService.CreatePlayerEmbed(player);
+            var embed = _embedService.CreatePlayerEmbed(player);
             
-            await Context.Channel.SendMessageAsync("", false, embed);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
 }

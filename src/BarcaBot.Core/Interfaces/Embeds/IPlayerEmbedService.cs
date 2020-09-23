@@ -5,6 +5,6 @@ namespace BarcaBot.Core.Interfaces.Embeds
 {
     public interface IPlayerEmbedService
     {
-        Embed CreatePlayerEmbed(Player player);
+        EmbedBuilder CreatePlayerEmbed(Player player);
     }
 }
