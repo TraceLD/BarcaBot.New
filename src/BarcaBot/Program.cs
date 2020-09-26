@@ -73,23 +73,10 @@ namespace BarcaBot
 
                     services.AddSingleton<ICountryEmojiService, CountryEmojiService>();
 
-                    services.AddSingleton<Func<PlotlyCredentials>>(provider =>
-                    {
-                        var settings = provider.GetRequiredService<ApisSettings>().Plotly;
-                        PlotlyCredentials Provider() => new PlotlyCredentials
-                        {
-                            Username = settings.Username,
-                            Token = settings.Token
-                        };
-                        return Provider;
-                    });
-                    services.AddHttpClient<PlotlyClient>();
-                    services.AddScoped<IChartService, ChartService>();
-
                     services.AddDataAccessServices();
                     services.AddStatsApis();
+                    services.AddCharts();
                     //services.AddAutoUpdaters();
-                    
                     services.AddEmbedServices();
                     services.AddDiscordBot();
                 })

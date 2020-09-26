@@ -84,7 +84,8 @@ namespace BarcaBot.Infrastructure.Services
         }
 
         private Layout GetDefaultLayout()
-            => new Layout
+        {
+            return new Layout
             {
                 Colorway = new List<string>
                 {
@@ -107,5 +108,6 @@ namespace BarcaBot.Infrastructure.Services
                     Color = "#ebebeb"
                 },
             };
+        }
     }
 }
