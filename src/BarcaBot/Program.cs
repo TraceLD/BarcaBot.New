@@ -13,7 +13,6 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
-using TraceLd.PlotlySharp;
 
 namespace BarcaBot
 {
