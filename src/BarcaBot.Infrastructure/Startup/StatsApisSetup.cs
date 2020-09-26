@@ -4,9 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BarcaBot.Infrastructure.Startup
 {
-    public static class HttpClientsSetup
+    public static class StatsApisSetup
     {
-        public static void AddHttpClients(this IServiceCollection services)
+        public static void AddStatsApis(this IServiceCollection services)
         {
             services.AddHttpClient<IApiFootballService, ApiFootballService>();
             services.AddHttpClient<IFootballDataService, FootballDataService>();

@@ -13,6 +13,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
+using TraceLd.PlotlySharp;
 
 namespace BarcaBot
 {
@@ -71,11 +72,25 @@ namespace BarcaBot
                         provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
                     services.AddSingleton<ICountryEmojiService, CountryEmojiService>();
-                    
+
+                    services.AddSingleton<Func<PlotlyCredentials>>(provider =>
+                    {
+                        var settings = provider.GetRequiredService<ApisSettings>().Plotly;
+                        PlotlyCredentials Provider() => new PlotlyCredentials
+                        {
+                            Username = settings.Username,
+                            Token = settings.Token
+                        };
+                        return Provider;
+                    });
+                    services.AddHttpClient<PlotlyClient>();
+                    services.AddScoped<IChartService, ChartService>();
+
                     services.AddDataAccessServices();
-                    services.AddHttpClients();
+                    services.AddStatsApis();
+                    //services.AddAutoUpdaters();
+                    
                     services.AddEmbedServices();
-                    services.AddAutoUpdaters();
                     services.AddDiscordBot();
                 })
                 .UseSerilog();
