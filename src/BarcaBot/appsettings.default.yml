@@ -13,3 +13,6 @@ ApisSettings:
     Season: ""
   FootballData:
     Token: ""
+  Plotly:
+    Username: ""
+    Token: ""
