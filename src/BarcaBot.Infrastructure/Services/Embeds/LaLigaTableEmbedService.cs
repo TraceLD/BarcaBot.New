@@ -16,16 +16,15 @@ namespace BarcaBot.Infrastructure.Services.Embeds
             _logger = logger;
         }
 
-        public EmbedBuilder CreateTableEmbed(IEnumerable<TablePosition> leagueTable)
+        public EmbedBuilder CreateTableEmbed(IList<TablePosition> leagueTable)
         {
-            var table = leagueTable.ToList();
-            
             var builder = new EmbedBuilder()
                 .WithColor(Color.Orange)
-                .WithThumbnailUrl("https://assets.laliga.com/assets/logos/laliga-v-negativo/laliga-v-negativo-1200x1200.jpg")
-                .WithFooter($"Stats updated at {table.First().UpdatedAt:dd/MM/yyyy HH:mm} UTC");
+                .WithThumbnailUrl(
+                    "https://assets.laliga.com/assets/logos/laliga-v-negativo/laliga-v-negativo-1200x1200.jpg")
+                .WithFooter($"Stats updated at {leagueTable.First().UpdatedAt:dd/MM/yyyy HH:mm} UTC");
             
-            foreach (var tablePosition in table)
+            foreach (var tablePosition in leagueTable)
             {
                 builder.AddField($"{tablePosition.Id}. {tablePosition.Team.Name}",
                     $"*Pts:* {tablePosition.TeamStatistics.Points}; " +

@@ -6,6 +6,7 @@ using System.Text.Unicode;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces.Http;
 using BarcaBot.Core.Models.FootballData.Matches;
+using BarcaBot.Core.Models.FootballData.Scorers;
 using BarcaBot.Core.Models.FootballData.Table;
 using BarcaBot.Core.Models.Settings;
 
@@ -41,6 +42,19 @@ namespace BarcaBot.Infrastructure.Services.Http
             await using var responseStream = await response.Content.ReadAsStreamAsync();
             var responseDeserialized = await JsonSerializer.DeserializeAsync
                 <StandingsResponse>(responseStream, _serializerOptions);
+            return responseDeserialized;
+        }
+
+        public async Task<ScorersResponse> GetLaLigaScorers()
+        {
+            var response = await _client.GetAsync(
+                $"competitions/{LaLigaId}/scorers?limit=5");
+
+            response.EnsureSuccessStatusCode();
+
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            var responseDeserialized = await JsonSerializer.DeserializeAsync
+                <ScorersResponse>(responseStream, _serializerOptions);
             return responseDeserialized;
         }
 

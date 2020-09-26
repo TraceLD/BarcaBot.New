@@ -103,7 +103,7 @@ namespace BarcaBot.Infrastructure.Extensions
             {
                 Id = dto.Position,
                 CurrentMatchday = response.Season.CurrentMatchday,
-                UpdatedAt = response.Competition.UpdatedAt,
+                UpdatedAt = DateTime.UtcNow,
                 Team = dto.Team,
                 TeamStatistics = new TeamStatistics
                 {

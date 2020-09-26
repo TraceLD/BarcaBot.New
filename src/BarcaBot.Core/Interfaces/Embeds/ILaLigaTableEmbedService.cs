@@ -6,6 +6,6 @@ namespace BarcaBot.Core.Interfaces.Embeds
 {
     public interface ILaLigaTableEmbedService
     {
-        EmbedBuilder CreateTableEmbed(IEnumerable<TablePosition> leagueTable);
+        EmbedBuilder CreateTableEmbed(IList<TablePosition> leagueTable);
     }
 }

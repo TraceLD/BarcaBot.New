@@ -10,6 +10,7 @@ namespace BarcaBot.Infrastructure.Startup
         {
             services.AddSingleton<IPlayerEmbedService, PlayerEmbedService>();
             services.AddSingleton<ILaLigaTableEmbedService, LaLigaTableEmbedService>();
+            services.AddSingleton<ILaLigaScorersEmbedService, LaLigaScorersEmbedService>();
         }
     }
 }

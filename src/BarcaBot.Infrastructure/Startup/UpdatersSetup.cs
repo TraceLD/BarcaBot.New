@@ -9,6 +9,7 @@ namespace BarcaBot.Infrastructure.Startup
         {
             services.AddHostedService<PlayersHostedService>();
             services.AddHostedService<LaLigaTableHostedService>();
+            services.AddHostedService<LaLigaScorersHostedService>();
             services.AddHostedService<ScheduledMatchesHostedService>();
         }
     }
