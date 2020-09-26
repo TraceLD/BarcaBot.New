@@ -11,7 +11,8 @@ db.createUser(
     }
 );
 
-db.createCollection("players");
-db.createCollection("matches");
+db.createCollection("leaguescorers");
 db.createCollection("leaguetable");
+db.createCollection("players");
+db.createCollection("scheduledmatches");
 db.createCollection("scorers");
