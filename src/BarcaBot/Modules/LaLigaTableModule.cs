@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Interfaces.Embeds;
 using Discord.Commands;
@@ -35,6 +36,13 @@ namespace BarcaBot.Modules
         public async Task TableTop()
         {
             var table = await _tableService.GetTop5();
+            
+            if (!table.Any())
+            {
+                await Context.Channel.SendMessageAsync(":x: Error while obtaining the table.");
+                return;
+            }
+            
             var embed = _embedService.CreateTableEmbed(table);
             embed.WithTitle("Current LaLiga Top 5");
             
@@ -46,6 +54,13 @@ namespace BarcaBot.Modules
         public async Task TableBottom()
         {
             var table = await _tableService.GetBottom5();
+            
+            if (!table.Any())
+            {
+                await Context.Channel.SendMessageAsync(":x: Error while obtaining the table.");
+                return;
+            }
+            
             var embed = _embedService.CreateTableEmbed(table);
             embed.WithTitle("Current LaLiga Bottom 5");
             

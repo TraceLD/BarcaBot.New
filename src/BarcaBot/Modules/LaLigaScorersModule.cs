@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Interfaces.Embeds;
 using Discord.Commands;
@@ -23,7 +24,15 @@ namespace BarcaBot.Modules
         public async Task Scorers()
         {
             var scorers = await _scorersService.GetAsync();
+            
+            if (!scorers.Any())
+            {
+                await Context.Channel.SendMessageAsync(":x: No scorers found.");
+                return;
+            }
+            
             var embed = _embedService.CreateScorersEmbed(scorers);
+            
             await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
     }
