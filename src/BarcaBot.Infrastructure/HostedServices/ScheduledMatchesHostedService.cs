@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Interfaces.Http;
 using BarcaBot.Core.Models;
-using BarcaBot.Infrastructure.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -64,7 +62,7 @@ namespace BarcaBot.Infrastructure.HostedServices
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"[{nameof(ScheduledMatchesHostedService)}] Error while updating LaLiga table.");
+                _logger.LogError(e, $"[{nameof(ScheduledMatchesHostedService)}] Error while updating.");
             }
         }
 

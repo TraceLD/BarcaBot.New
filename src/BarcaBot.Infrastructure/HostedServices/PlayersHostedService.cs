@@ -51,7 +51,7 @@ namespace BarcaBot.Infrastructure.HostedServices
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"[{nameof(PlayersHostedService)}] Error while updating players.");
+                _logger.LogError(e, $"[{nameof(PlayersHostedService)}] Error while updating.");
             }
         }
 

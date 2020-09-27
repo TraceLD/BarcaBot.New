@@ -75,7 +75,7 @@ namespace BarcaBot
                     services.AddDataAccessServices();
                     services.AddStatsApis();
                     services.AddCharts();
-                    //services.AddAutoUpdaters();
+                    services.AddAutoUpdaters();
                     services.AddEmbedServices();
                     services.AddDiscordBot();
                 })

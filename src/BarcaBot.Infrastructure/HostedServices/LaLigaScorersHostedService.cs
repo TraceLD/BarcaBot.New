@@ -63,7 +63,7 @@ namespace BarcaBot.Infrastructure.HostedServices
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"[{nameof(LaLigaScorersHostedService)}] Error while updating LaLiga table.");
+                _logger.LogError(e, $"[{nameof(LaLigaScorersHostedService)}] Error while updating.");
             }
         }
 
