@@ -1,4 +1,5 @@
 ﻿using BarcaBot.Infrastructure.HostedServices;
+using BarcaBot.Infrastructure.HostedServices.Updaters;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BarcaBot.Infrastructure.Startup

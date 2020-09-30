@@ -7,11 +7,9 @@ using BarcaBot.Core.Interfaces.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
 using Scorer = BarcaBot.Core.Models.Scorer;
-using ScorerDto = BarcaBot.Core.Models.FootballData.Scorers.Scorer;
 
-namespace BarcaBot.Infrastructure.HostedServices
+namespace BarcaBot.Infrastructure.HostedServices.Updaters
 {
     public class LaLigaScorersHostedService : IHostedService
     {

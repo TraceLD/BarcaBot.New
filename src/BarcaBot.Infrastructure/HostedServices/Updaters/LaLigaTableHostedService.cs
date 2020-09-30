@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace BarcaBot.Infrastructure.HostedServices
+namespace BarcaBot.Infrastructure.HostedServices.Updaters
 {
     public class LaLigaTableHostedService : IHostedService
     {
