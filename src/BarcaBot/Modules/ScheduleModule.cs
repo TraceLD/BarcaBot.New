@@ -12,12 +12,14 @@ namespace BarcaBot.Modules
         private readonly ILogger<ScheduleModule> _logger;
         private readonly IScheduledMatchService _matchService;
         private readonly IScheduleEmbedService _embedService;
+        private readonly IBasicEmbedsService _basicEmbedsService;
 
-        public ScheduleModule(ILogger<ScheduleModule> logger, IScheduledMatchService matchService, IScheduleEmbedService embedService)
+        public ScheduleModule(ILogger<ScheduleModule> logger, IScheduledMatchService matchService, IScheduleEmbedService embedService, IBasicEmbedsService basicEmbedsService)
         {
             _logger = logger;
             _matchService = matchService;
             _embedService = embedService;
+            _basicEmbedsService = basicEmbedsService;
         }
 
         [Command("schedule", RunMode = RunMode.Async)]
@@ -27,7 +29,8 @@ namespace BarcaBot.Modules
 
             if (!schedule.Any())
             {
-                await Context.Channel.SendMessageAsync(":x: No upcoming matches found.");
+                var errorEmbed = _basicEmbedsService.CreateErrorEmbed("No upcoming matches found.");
+                await Context.Channel.SendMessageAsync("", false, errorEmbed.Build());
                 return;
             }
 

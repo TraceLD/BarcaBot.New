@@ -12,12 +12,14 @@ namespace BarcaBot.Modules
         private readonly ILogger<LaLigaScorersModule> _logger;
         private readonly ILaLigaScorersService _scorersService;
         private readonly ILaLigaScorersEmbedService _embedService;
+        private readonly IBasicEmbedsService _basicEmbedsService;
 
-        public LaLigaScorersModule(ILogger<LaLigaScorersModule> logger, ILaLigaScorersService scorersService, ILaLigaScorersEmbedService embedService)
+        public LaLigaScorersModule(ILogger<LaLigaScorersModule> logger, ILaLigaScorersService scorersService, ILaLigaScorersEmbedService embedService, IBasicEmbedsService basicEmbedsService)
         {
             _logger = logger;
             _scorersService = scorersService;
             _embedService = embedService;
+            _basicEmbedsService = basicEmbedsService;
         }
 
         [Command("scorers", RunMode = RunMode.Async)]
@@ -27,7 +29,8 @@ namespace BarcaBot.Modules
             
             if (!scorers.Any())
             {
-                await Context.Channel.SendMessageAsync(":x: No scorers found.");
+                var errorEmbed = _basicEmbedsService.CreateErrorEmbed("No scorers found.");
+                await Context.Channel.SendMessageAsync("", false, errorEmbed.Build());
                 return;
             }
             

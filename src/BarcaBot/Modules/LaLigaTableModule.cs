@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
 using BarcaBot.Core.Interfaces.Embeds;
+using Discord;
 using Discord.Commands;
 using Microsoft.Extensions.Logging;
 
@@ -12,23 +13,27 @@ namespace BarcaBot.Modules
         private readonly ILogger<LaLigaTableModule> _logger;
         private readonly ILaLigaTableService _tableService;
         private readonly ILaLigaTableEmbedService _embedService;
+        private readonly IBasicEmbedsService _basicEmbedsService;
 
-        public LaLigaTableModule(ILogger<LaLigaTableModule> logger, ILaLigaTableService tableService, ILaLigaTableEmbedService embedService)
+        private readonly Embed _errorEmbed; 
+
+        public LaLigaTableModule(ILogger<LaLigaTableModule> logger, ILaLigaTableService tableService, ILaLigaTableEmbedService embedService, IBasicEmbedsService basicEmbedsService)
         {
             _logger = logger;
             _tableService = tableService;
             _embedService = embedService;
+            _basicEmbedsService = basicEmbedsService;
+
+            _errorEmbed = _basicEmbedsService.CreateErrorEmbed("Error while obtaining the table.").Build();
         }
 
         [Priority(-1)]
         [Command("table")]
         public async Task Table()
         {
-            const string s = ":x: Incorrect arguments.\nUsage:\n" +
-                             "`table top`\n" +
-                             "`table bottom`";
+            var embed = _basicEmbedsService.CreateUsageEmbed("table top", "table bottom");
 
-            await Context.Channel.SendMessageAsync(s);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Priority(1)]
@@ -39,12 +44,12 @@ namespace BarcaBot.Modules
             
             if (!table.Any())
             {
-                await Context.Channel.SendMessageAsync(":x: Error while obtaining the table.");
+                await Context.Channel.SendMessageAsync("", false, _errorEmbed);
                 return;
             }
-            
-            var embed = _embedService.CreateTableEmbed(table);
-            embed.WithTitle("Current LaLiga Top 5");
+
+            var embed = _embedService.CreateTableEmbed(table)
+                .WithTitle("Current LaLiga Top 5");
             
             await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
@@ -57,12 +62,12 @@ namespace BarcaBot.Modules
             
             if (!table.Any())
             {
-                await Context.Channel.SendMessageAsync(":x: Error while obtaining the table.");
+                await Context.Channel.SendMessageAsync("", false, _errorEmbed);
                 return;
             }
-            
-            var embed = _embedService.CreateTableEmbed(table);
-            embed.WithTitle("Current LaLiga Bottom 5");
+
+            var embed = _embedService.CreateTableEmbed(table)
+                .WithTitle("Current LaLiga Bottom 5");
             
             await Context.Channel.SendMessageAsync("", false, embed.Build());
         }

@@ -11,21 +11,23 @@ namespace BarcaBot.Modules
         private readonly ILogger<PlayerModule> _logger;
         private readonly IPlayerService _playerService;
         private readonly IPlayerEmbedService _embedService;
+        private readonly IBasicEmbedsService _basicEmbedsService;
 
-        public PlayerModule(ILogger<PlayerModule> logger, IPlayerService playerService, ICountryEmojiService emojiService, IPlayerEmbedService embedService)
+        public PlayerModule(ILogger<PlayerModule> logger, IPlayerService playerService, ICountryEmojiService emojiService, IPlayerEmbedService embedService, IBasicEmbedsService basicEmbedsService)
         {
             _logger = logger;
             _playerService = playerService;
             _embedService = embedService;
+            _basicEmbedsService = basicEmbedsService;
         }
 
         [Priority(-1)]
         [Command("player")]
         public async Task Player()
         {
-            const string s = ":x: Incorrect arguments.\nUsage: `player <name>`";
-            
-            await Context.Channel.SendMessageAsync(s);
+            var embed = _basicEmbedsService.CreateUsageEmbed("player <name>");
+
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
         
         [Priority(1)]
@@ -36,7 +38,10 @@ namespace BarcaBot.Modules
             
             if (player is null)
             {
-                await Context.Channel.SendMessageAsync($":x: Cannot find a player with name {name}");
+                var errorEmbed = _basicEmbedsService.CreateErrorEmbed($"Could not find player `{name}`." +
+                                                                      " Are you sure they exist and are a Barca player?\n\n" +
+                                                                      "If you think there is a player missing from the database please report it to the creator of BarcaBot: `Trace#8994` or open a GitHub issue.");
+                await Context.Channel.SendMessageAsync($"", false, errorEmbed.Build());
                 return;
             }
             

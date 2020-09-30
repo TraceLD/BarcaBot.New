@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
+using BarcaBot.Core.Interfaces.Embeds;
 using BarcaBot.Core.Models.Settings;
 using BarcaBot.Infrastructure.Extensions;
 using Discord;
@@ -20,12 +21,14 @@ namespace BarcaBot.Infrastructure.HostedServices
         private readonly IServiceProvider _provider;
         private readonly IBotService _botService;
         private readonly CommandService _commandService;
+        private readonly IBasicEmbedsService _basicEmbedsService;
 
         public CommandHostedService(
             ILogger<CommandHostedService> logger,
             IServiceProvider provider, IBotService botService,
             CommandService commandService,
-            DiscordSettings settings
+            DiscordSettings settings,
+            IBasicEmbedsService basicEmbedsService
             )
         {
             _logger = logger;
@@ -33,6 +36,7 @@ namespace BarcaBot.Infrastructure.HostedServices
             _botService = botService;
             _commandService = commandService;
             _settings = settings;
+            _basicEmbedsService = basicEmbedsService;
         }
         
         private Task LogCommand(LogMessage arg)
@@ -89,7 +93,9 @@ namespace BarcaBot.Infrastructure.HostedServices
 
                     if (result.Error.HasValue)
                     {
-                        await message.Channel.SendMessageAsync($":x: Error: {result.Error.Value}, {result.ErrorReason}");
+                        var errEmbed =
+                            _basicEmbedsService.CreateErrorEmbed($"Unhandled error occurred.\n{result.Error.Value}, {result.ErrorReason}");
+                        await message.Channel.SendMessageAsync("", false, errEmbed.Build());
                     }
                 });
             

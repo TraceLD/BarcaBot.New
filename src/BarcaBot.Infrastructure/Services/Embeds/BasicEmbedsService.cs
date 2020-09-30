@@ -10,17 +10,16 @@ namespace BarcaBot.Infrastructure.Services.Embeds
     public class BasicEmbedsService : IBasicEmbedsService
     {
         private readonly ILogger<BasicEmbedsService> _logger;
-        private readonly DiscordSettings _discordSettings;
+        private readonly char _prefix;
 
         public BasicEmbedsService(ILogger<BasicEmbedsService> logger, DiscordSettings discordSettings)
         {
             _logger = logger;
-            _discordSettings = discordSettings;
+            _prefix = discordSettings.Prefix;
         }
 
         public EmbedBuilder CreateHelpEmbed(Dictionary<string, Dictionary<string, string>> commands)
         {
-            var prefix = _discordSettings.Prefix;
             var builder = new EmbedBuilder()
                 .WithTitle(":information_source: Help")
                 .WithColor(Color.Blue)
@@ -32,11 +31,42 @@ namespace BarcaBot.Infrastructure.Services.Embeds
                 
                 foreach (var (commandName, commandDescription) in commandsForThatCategory)
                 {
-                    commandsString.Append($"{prefix}{commandName}\n{commandDescription}\n\n");
+                    commandsString.Append($"{_prefix}{commandName}\n{commandDescription}\n\n");
                 }
 
                 builder.AddField(cmdCategory, commandsString);
             }
+
+            return builder;
+        }
+
+        public EmbedBuilder CreateErrorEmbed(string errorMsg)
+        {
+            var builder = new EmbedBuilder()
+                .WithTitle(":warning: Error")
+                .WithColor(Color.Red)
+                .WithDescription(errorMsg);
+
+            return builder;
+        }
+
+        public EmbedBuilder CreateUsageEmbed(params string[] usageExamples)
+        {
+            
+            var builder = new EmbedBuilder()
+                .WithTitle(":information_source: Usage")
+                .WithColor(Color.DarkBlue)
+                .WithDescription(
+                    "You've attempted to use this command incorrectly. Below are correct usage examples for this command");
+
+            var examplesString = new StringBuilder();
+            
+            foreach (var usageExample in usageExamples)
+            {
+                examplesString.Append($"`{_prefix}{usageExample}`\n");
+            }
+
+            builder.AddField("Usage examples", examplesString);
 
             return builder;
         }

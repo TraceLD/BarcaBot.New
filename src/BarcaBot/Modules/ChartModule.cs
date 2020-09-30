@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using BarcaBot.Core.Interfaces;
+using BarcaBot.Core.Interfaces.Embeds;
 using BarcaBot.Core.Models.Player;
 using Discord.Commands;
 using Microsoft.Extensions.Logging;
@@ -13,24 +14,26 @@ namespace BarcaBot.Modules
         private readonly ILogger<ChartModule> _logger;
         private readonly IChartService _chartService;
         private readonly IPlayerService _playerService;
+        private readonly IBasicEmbedsService _basicEmbedsService;
 
-        public ChartModule(ILogger<ChartModule> logger, IChartService chartService, IPlayerService playerService)
+        public ChartModule(ILogger<ChartModule> logger, IChartService chartService, IPlayerService playerService, IBasicEmbedsService basicEmbedsService)
         {
             _logger = logger;
             _chartService = chartService;
             _playerService = playerService;
+            _basicEmbedsService = basicEmbedsService;
         }
 
         [Priority(1)]
         [Command("stats")]
         public async Task Stats()
         {
-            const string s = ":x: Incorrect arguments.\nUsage:\n" +
-                             "`stats <player_name>`\n" +
-                             "`stats <player_name> <player_name2>`" +
-                             "`stats <player_name> <player_name2> <player_name3> etc.`";
-            
-            await Context.Channel.SendMessageAsync(s);
+            var embed = _basicEmbedsService.CreateUsageEmbed(
+                "stats <player_name>",
+                "stats <player_name> <player_name2>",
+                "stats <player_name> <player_name2> <player_name3> etc.");
+
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         [Priority(-1)]
@@ -45,10 +48,10 @@ namespace BarcaBot.Modules
                 
                 if (player is null)
                 {
-                    await Context.Channel.SendMessageAsync(
-                        $":x: Could not find player `{name}`." +
-                        " Are you sure they exist and are a Barca player?\n" +
-                        "If you think there is a player missing from the database please report it to the creator of BarcaBot: `Trace#8994`.");
+                    var errorEmbed = _basicEmbedsService.CreateErrorEmbed($"Could not find player `{name}`." +
+                                                                          " Are you sure they exist and are a Barca player?\n\n" +
+                                                                          "If you think there is a player missing from the database please report it to the creator of BarcaBot: `Trace#8994` or open a GitHub issue.");
+                    await Context.Channel.SendMessageAsync("", false, errorEmbed.Build());
                     return;
                 }
                 
