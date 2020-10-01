@@ -17,6 +17,9 @@ services:
             - 5001:80
         depends_on:
             - mongodb
+        deploy:
+            restart_policy:
+                condition: on-failure
 
 volumes:
     mongodb-volume:
